@@ -16,7 +16,7 @@ namespace Theme
 
     inline juce::Font font (float height, bool bold = false)
     {
-        juce::Font f (juce::FontOptions (height));
+juce::Font f = juce::Font (juce::FontOptions (height));
         return bold ? f.boldened() : f;
     }
 }
