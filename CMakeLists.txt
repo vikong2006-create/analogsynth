@@ -29,7 +29,13 @@ juce_generate_juce_header(AnalogSynth)
 target_sources(AnalogSynth PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginProcessor.h
-    Source/Synth.h)
+    Source/PluginEditor.cpp
+    Source/PluginEditor.h
+    Source/LookAndFeel.h
+    Source/Synth.h
+    Source/Inflator.h
+    Source/Effects.h
+    Source/Presets.h)
 
 target_compile_definitions(AnalogSynth PUBLIC
     JUCE_WEB_BROWSER=0

@@ -35,6 +35,26 @@ namespace ID
 
     inline constexpr const char* drift  = "drift";
     inline constexpr const char* master = "master";
+    inline constexpr const char* filtDrive = "filtDrive";
+
+    // Effects
+    inline constexpr const char* chorusMix   = "chorusMix";
+    inline constexpr const char* chorusRate  = "chorusRate";
+    inline constexpr const char* chorusDepth = "chorusDepth";
+    inline constexpr const char* delayTime   = "delayTime";
+    inline constexpr const char* delayFb     = "delayFb";
+    inline constexpr const char* delayMix    = "delayMix";
+    inline constexpr const char* reverbSize  = "reverbSize";
+    inline constexpr const char* reverbDamp  = "reverbDamp";
+    inline constexpr const char* reverbMix   = "reverbMix";
+
+    // Inflator-style harmonic enhancer
+    inline constexpr const char* inflOn     = "inflOn";
+    inline constexpr const char* inflIn     = "inflIn";
+    inline constexpr const char* inflEffect = "inflEffect";
+    inline constexpr const char* inflCurve  = "inflCurve";
+    inline constexpr const char* inflOut    = "inflOut";
+    inline constexpr const char* inflClip   = "inflClip";
 }
 
 //==============================================================================
@@ -223,7 +243,7 @@ public:
                                 + keyTrack * (float) (noteNumber - 60) / 12.0f;
             const float fc = cutoff * std::exp2 (octaves);
 
-            float y = filter.process (mixed * 0.5f, fc, resonance, (float) sr);
+            float y = filter.process (mixed * driveGain, fc, resonance, (float) sr);
             y *= ae * vel * masterGain;
 
             for (int ch = 0; ch < numCh; ++ch)
@@ -249,6 +269,7 @@ private:
         resonance  = p (ID::resonance);
         filtEnvAmt = p (ID::filtEnvAmt);
         keyTrack   = p (ID::keyTrack);
+        driveGain  = 0.5f * (1.0f + p (ID::filtDrive) * 4.0f);
 
         ampParams = { p (ID::ampA), p (ID::ampD), p (ID::ampS), p (ID::ampR) };
         fltParams = { p (ID::fltA), p (ID::fltD), p (ID::fltS), p (ID::fltR) };
@@ -281,5 +302,5 @@ private:
     float subLevel = 0, noiseLevel = 0;
     float cutoff = 2000, resonance = 0.2f, filtEnvAmt = 2.0f, keyTrack = 0.5f;
     float lfoRate = 5.0f, lfoPitch = 0.0f, lfoCutoffAmt = 0.0f;
-    float driftAmt = 0.3f, masterGain = 1.0f;
+    float driftAmt = 0.3f, masterGain = 1.0f, driveGain = 0.5f;
 };
